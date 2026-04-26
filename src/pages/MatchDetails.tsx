@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getMatchFullData } from '../api/client';
 import Scoreboard from '../components/Scoreboard';
@@ -9,23 +9,38 @@ const MatchDetails: React.FC = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const hasLoadedDataRef = useRef(false);
 
   const loadData = async () => {
     try {
       const result = await getMatchFullData(id!);
       setData(result);
+      setError(false);
+      hasLoadedDataRef.current = true;
     } catch (err) {
-      setError(true);
+      if (!hasLoadedDataRef.current) {
+        setError(true);
+      }
+    } finally {
+      setIsInitialLoading(false);
     }
   };
 
   useEffect(() => {
+    hasLoadedDataRef.current = false;
+    setData(null);
+    setError(false);
+    setIsInitialLoading(true);
+
     loadData();
     const interval = setInterval(loadData, 15000); // 15s Polling
     return () => clearInterval(interval);
   }, [id]);
 
-  if (error) return (
+  if (isInitialLoading) return <div className="flex h-screen items-center justify-center bg-cream text-charcoal/50 animate-pulse font-serif text-lg">Loading Field...</div>;
+
+  if (error && !data) return (
     <div className="flex flex-col items-center justify-center h-screen bg-cream">
       <p className="font-serif text-lg text-charcoal/70 mb-4">Match ID not found</p>
       <button onClick={() => navigate('/')} className="px-4 py-2 bg-charcoal text-cream rounded hover:bg-gold transition-colors">Go Back</button>
