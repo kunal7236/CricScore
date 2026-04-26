@@ -25,14 +25,17 @@ export const CommentaryItem = ({ ball }: { ball: BallCommentary }) => {
 
   return (
     <div className={`flex gap-4 p-4 rounded-lg border ${borderColor} ${bgColor} transition-all hover:shadow-md items-start`}>
-      <div className={`w-10 h-10 rounded-lg text-xs font-bold flex-shrink-0 flex items-center justify-center text-white ${accentColor}`}>
+      <div className={`w-10 h-10 rounded-lg text-xs font-bold shrink-0 flex items-center justify-center text-white ${accentColor}`}>
         {ball.ballMetric ? String(ball.ballMetric).split('.')[1] || '•' : '•'}
       </div>
-      <div className="flex-grow">
+      <div className="grow">
         <p className="text-charcoal leading-relaxed" 
            dangerouslySetInnerHTML={{ __html: ball.commText }} />
-        <div className="text-xs font-bold text-charcoal/50 mt-2">
-          {ball.ballMetric || '•'} • {ball.batsmanDetails?.playerName || 'Batter'}
+            <div className="text-xs font-bold text-charcoal/50 mt-2">
+              {ball.ballMetric ? `${ball.ballMetric} overs` : ''}
+              {ball.batsmanDetails?.playerName ? (
+                <span className="block">{ball.batsmanDetails.playerName}</span>
+              ) : null}
         </div>
       </div>
       {isWicket && (

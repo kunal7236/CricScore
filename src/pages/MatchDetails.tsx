@@ -34,7 +34,12 @@ const MatchDetails: React.FC = () => {
 
   if (!data) return <div className="flex h-screen items-center justify-center bg-cream text-charcoal/50 animate-pulse font-serif text-lg">Loading Field...</div>;
 
-  const commentary = data.matchCommentary ? Object.values(data.matchCommentary).reverse().slice(0, 50) : [];
+  const commentary = data.matchCommentary
+    ? Object.values(data.matchCommentary)
+        .filter((item: any) => item?.commText && item?.commType === 'commentary')
+        .sort((a: any, b: any) => (Number(b?.timestamp) || 0) - (Number(a?.timestamp) || 0))
+        .slice(0, 50)
+    : [];
 
   return (
     <div className="min-h-screen bg-cream font-sans text-charcoal py-8 px-4">
@@ -64,10 +69,9 @@ const MatchDetails: React.FC = () => {
         </div>
 
         <div className="space-y-3">
-          {commentary.map((item: any, idx: number) => {
-            if (!item.commText || item.commType !== 'commentary') return null;
-            return <CommentaryItem key={idx} ball={item} />;
-          })}
+          {commentary.map((item: any, idx: number) => (
+            <CommentaryItem key={`${item.timestamp || idx}-${idx}`} ball={item} />
+          ))}
         </div>
       </div>
     </div>

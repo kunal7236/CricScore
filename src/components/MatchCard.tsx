@@ -24,7 +24,7 @@ export const MatchCard = ({ match }: { match: MatchIndexItem }) => (
         </div>
         
         <div className="mt-6 pt-4 border-t border-parchment flex justify-between items-center text-xs uppercase font-bold tracking-wider">
-          <span className="text-charcoal/50">Match ID: {match.id}</span>
+          {/* <span className="text-charcoal/50">Match ID: {match.id}</span> */}
           <div className="flex items-center gap-2 text-gold transition-transform duration-300 group-hover:translate-x-1">
             <span>View</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

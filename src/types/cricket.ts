@@ -58,7 +58,7 @@ export interface BallCommentary {
   matchId: string;
   commText: string;
   timestamp: number;
-  ballMetric?: string;
+  ballMetric?: number;
   inningsId: number;
   event: string[];
   batsmanDetails?: {
