@@ -7,13 +7,13 @@ export const MatchCard = ({ match }: { match: MatchIndexItem }) => (
       <div className="flex flex-col h-full">
         <div className="flex-1">
           <div className="flex justify-between items-start mb-4">
-            {match.status === 'Live Now' ? (
-              <span className="vintage-badge vintage-badge-live">
-                <div className="w-1.5 h-1.5 rounded-full bg-burgundy animate-pulse-slow"></div>
-                Live
+            {match.status === "Live Now" ? (
+              <span className="vintage-badge vintage-badge-live  border border-parchment">
+                <div className="w-1 h-1.5 rounded-full bg-burgundy animate-pulse-slow"></div>
+                • Live
               </span>
             ) : (
-              <span className="vintage-badge vintage-badge-completed">
+              <span className="vintage-badge vintage-badge-completed  border border-parchment">
                 Completed
               </span>
             )}
@@ -22,13 +22,23 @@ export const MatchCard = ({ match }: { match: MatchIndexItem }) => (
             {match.title}
           </h2>
         </div>
-        
-        <div className="mt-6 pt-4 border-t border-parchment flex justify-between items-center text-xs uppercase font-bold tracking-wider">
+
+        <div className="mt-10 pt-4 border-t border-parchment flex justify-between items-center text-xs font-bold tracking-wider">
           {/* <span className="text-charcoal/50">Match ID: {match.id}</span> */}
           <div className="flex items-center gap-2 text-gold transition-transform duration-300 group-hover:translate-x-1">
-            <span>View</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+            <span>VIEW</span>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2.5"
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </div>
         </div>

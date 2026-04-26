@@ -15,17 +15,6 @@ export const CommentaryItem = ({ ball }: { ball: BallCommentary }) => {
     if (isWicket) return 'W';
     if (isSix) return '6';
     if (isFour) return '4';
-
-    const commTextPlain = String(ball.commText || '').toLowerCase();
-    if (commTextPlain.includes('no run')) return '0';
-    if (commTextPlain.includes('1 run') || commTextPlain.includes('one run')) return '1';
-    if (commTextPlain.includes('2 runs') || commTextPlain.includes('two runs')) return '2';
-    if (commTextPlain.includes('3 runs') || commTextPlain.includes('three runs')) return '3';
-    if (commTextPlain.includes('5 runs') || commTextPlain.includes('five runs')) return '5';
-    if (commTextPlain.includes('wide')) return 'Wd';
-    if (commTextPlain.includes('no ball') || commTextPlain.includes('no-ball')) return 'Nb';
-
-    return '•';
   };
 
   const outcomeIcon = getOutcomeIcon();
@@ -36,15 +25,12 @@ export const CommentaryItem = ({ ball }: { ball: BallCommentary }) => {
   
   if (isWicket) {
     bgColor = 'bg-red-50';
-    borderColor = 'border-red-100';
-    accentColor = 'bg-burgundy';
+    accentColor = 'bg-red-600';
   } else if (isSix) {
     bgColor = 'bg-amber-50';
-    borderColor = 'border-amber-100';
-    accentColor = 'bg-gold';
+    accentColor = 'bg-amber-600';
   } else if (isFour) {
     bgColor = 'bg-blue-50';
-    borderColor = 'border-blue-100';
     accentColor = 'bg-blue-600';
   }
 
@@ -57,17 +43,12 @@ export const CommentaryItem = ({ ball }: { ball: BallCommentary }) => {
         <p className="text-charcoal leading-relaxed" 
            dangerouslySetInnerHTML={{ __html: ball.commText }} />
             <div className="text-xs font-bold text-charcoal/50 mt-2">
-              {ball.ballMetric ? `${ball.ballMetric} overs` : ''}
+              {ball.ballMetric ? `${ball.ballMetric} Overs` : ''}
               {ball.batsmanDetails?.playerName ? (
                 <span className="block">{ball.batsmanDetails.playerName ? `${ball.batsmanDetails.playerName} on the strike.` : ''}</span>
               ) : null}
         </div>
       </div>
-      {isWicket && (
-        <div className="ml-auto text-right">
-          <div className="font-bold text-burgundy">WICKET</div>
-        </div>
-      )}
     </div>
   );
 };

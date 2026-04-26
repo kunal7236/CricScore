@@ -87,18 +87,18 @@ const Scoreboard: React.FC<Props> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           {isLive ? (
-            <span className="vintage-badge vintage-badge-live">
-              <div className="w-1.5 h-1.5 rounded-full bg-burgundy animate-pulse-slow"></div>
-              Live
+            <span className="vintage-badge vintage-badge-live  border border-parchment">
+              <div className="w-1 h-1.5 rounded-full bg-burgundy animate-pulse-slow"></div>
+              • Live
             </span>
           ) : (
-            <span className="vintage-badge vintage-badge-completed">
+            <span className="vintage-badge vintage-badge-completed  border border-parchment">
               Completed
             </span>
           )}
         </div>
         {viewLabel && (
-          <div className="text-xs font-bold text-charcoal/50 flex items-center gap-1.5">
+          <div className="text-xs font-bold text-charcoal/50 flex items-center gap-1.5  border border-parchment rounded px-2 py-1">
             👁 {viewLabel}
           </div>
         )}
@@ -116,12 +116,10 @@ const Scoreboard: React.FC<Props> = ({
             {currentScore}
             <span className="text-2xl text-charcoal/50">/{currentWickets}</span>
           </div>
-          <div className="text-xs text-charcoal/60 font-medium">
-            {currentOvers} Overs
+          <div className="h-7.5 text-xs text-charcoal/60 font-medium flex justify-between items-end">
+            <b>{currentOvers} Overs</b>
             {isSecondInnings ? (
-              <>
-                {' '}• Target: <span className="text-charcoal font-bold">{target}</span>
-              </>
+                <span className="text-charcoal font-bold">• Target: {target} Runs</span>
             ) : null}
           </div>
         </div>
@@ -130,21 +128,21 @@ const Scoreboard: React.FC<Props> = ({
       {/* Run Rates & Key Stats */}
       {miniscore && (
         <div className={`grid grid-cols-2 ${isSecondInnings ? 'md:grid-cols-4' : 'md:grid-cols-2'} gap-3`}>
-          <div className="bg-blue-500/10 rounded-lg p-3">
+          <div className={`bg-blue-500/10 rounded-lg p-3  border border-parchment`}>
             <div className="text-xs font-bold text-blue-800/70 uppercase tracking-wider">Current Run Rate (CRR)</div>
             <div className="text-2xl font-bold font-serif text-blue-900">{currentRR}</div>
           </div>
-          <div className="bg-purple-500/10 rounded-lg p-3">
+          <div className={`bg-purple-500/10 rounded-lg p-3  border border-parchment`}>
             <div className="text-xs font-bold text-purple-800/70 uppercase tracking-wider">Partnership</div>
             <div className="text-2xl font-bold font-serif text-purple-900">{partnershipRuns}</div>
           </div>
           {isSecondInnings && (
             <>
-              <div className="bg-amber-500/10 rounded-lg p-3">
+              <div className={`bg-amber-500/10 rounded-lg p-3  border border-parchment`}>
                 <div className="text-xs font-bold text-amber-800/70 uppercase tracking-wider">Required Run Rate (RRR)</div>
                 <div className="text-2xl font-bold font-serif text-amber-900">{requiredRR}</div>
               </div>
-              <div className="bg-emerald-500/10 rounded-lg p-3">
+              <div className={`bg-emerald-500/10 rounded-lg p-3  border border-parchment`}>
                 <div className="text-xs font-bold text-emerald-800/70 uppercase tracking-wider">To Win</div>
                 <div className="text-2xl font-bold font-serif text-emerald-900">{remainingToWin}</div>
               </div>
@@ -156,24 +154,24 @@ const Scoreboard: React.FC<Props> = ({
       {/* Batsman Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {strikerData && (
-          <div className="vintage-card p-4">
+          <div className="vintage-card p-4 border border-parchment">
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-serif font-semibold text-charcoal">{strikerName ? `${strikerName}*` : 'Striker'}</h3>
             </div>
             <div className="grid grid-cols-4 gap-2 text-center">
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">Runs</div>
                 <div className="font-bold">{strikerRuns}</div>
               </div>
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">Balls</div>
                 <div className="font-bold">{strikerBalls}</div>
               </div>
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">4s</div>
                 <div className="font-bold">{strikerFours}</div>
               </div>
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">6s</div>
                 <div className="font-bold">{strikerSixes}</div>
               </div>
@@ -181,24 +179,24 @@ const Scoreboard: React.FC<Props> = ({
           </div>
         )}
         {nonStrikerData && (
-          <div className="vintage-card p-4">
+          <div className="vintage-card p-4 border border-parchment">
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-serif font-semibold text-charcoal">{nonStrikerName || 'Non-striker'}</h3>
             </div>
             <div className="grid grid-cols-4 gap-2 text-center">
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">Runs</div>
                 <div className="font-bold">{nonStrikerRuns}</div>
               </div>
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">Balls</div>
                 <div className="font-bold">{nonStrikerBalls}</div>
               </div>
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">4s</div>
                 <div className="font-bold">{nonStrikerFours}</div>
               </div>
-              <div className="bg-[#F5EDE4] rounded p-2">
+              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
                 <div className="text-xs text-charcoal/60">6s</div>
                 <div className="font-bold">{nonStrikerSixes}</div>
               </div>
@@ -208,7 +206,7 @@ const Scoreboard: React.FC<Props> = ({
       </div>
 
       {/* Status Bar */}
-      <div className="bg-charcoal rounded-md p-4 text-center text-cream font-medium">
+      <div className="bg-charcoal rounded-md p-4 text-center text-cream font-semibold font-style: italic border border-parchment text-2xl">
         {status}
       </div>
     </div>

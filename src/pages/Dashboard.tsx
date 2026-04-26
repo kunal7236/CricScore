@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
           <div className="flex justify-center items-center gap-4">
             <div className="w-8 h-px bg-gold"></div>
             <h1 className="font-serif text-3xl md:text-5xl font-bold text-charcoal">
-              CRIC.DASH
+              CRIC-DASH
             </h1>
             <div className="w-8 h-px bg-gold"></div>
           </div>
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
 
         {/* Matches Grid */}
         {matches.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
             {matches.map((match) => (
               <MatchCard key={match.id} match={match} />
             ))}

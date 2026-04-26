@@ -63,7 +63,7 @@ const MatchDetails: React.FC = () => {
           onClick={() => navigate('/')} 
           className="mb-6 flex items-center gap-2 text-sm font-medium text-charcoal/60 hover:text-charcoal transition"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+          <svg className="w-4 h-4 border border-parchment rounded-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
           All Matches
         </button>
         

@@ -13,8 +13,9 @@
 /* Vintage Card with gold top border */
 .vintage-card {
   background: #fff;
-  border: 1px solid var(--parchment);
+  border: 1px solid var(--charcoal);
   border-radius: 0.5rem;
+  border-top: none;
   position: relative;
   overflow: hidden;
 }
@@ -70,9 +71,10 @@
 
 /* Score Display */
 .score-display {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-weight: 700;
   line-height: 1;
+  font-variant-numeric: lining-nums;
 }
 
 /* Slow pulse animation for live indicator */
@@ -92,6 +94,7 @@ body {
   font-family: "DM Sans", system-ui, sans-serif;
   background-color: var(--cream);
   color: var(--charcoal);
+  font-variant-numeric: lining-nums;
 }
 
 #root {

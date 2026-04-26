@@ -16,7 +16,7 @@ export default {
         forest: '#4A5D4A',
       },
       fontFamily: {
-        'serif': ['Cormorant Garamond', 'Georgia', 'serif'],
+        'serif': ['Playfair Display', 'Georgia', 'serif'],
         'sans': ['DM Sans', 'system-ui', 'sans-serif'],
       }
     },
