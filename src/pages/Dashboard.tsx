@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { MatchIndexItem } from '../types/cricket';
 import { MatchCard } from '../components/MatchCard';
-import axios from 'axios';
+import { getActiveMatches } from '../api/client';
 
 const Dashboard: React.FC = () => {
   const [matches, setMatches] = useState<MatchIndexItem[]>([]);
@@ -10,33 +10,8 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchIndex = async () => {
       try {
-        // This hits the vite proxy to https://www.cricbuzz.com/cricket-match/live-scores
-        const { data } = await axios.get('/api/live-matches-index');
-        
-        // Parsing the HTML response using a temporary DOM element
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data, 'text/html');
-        const matchLinks = doc.querySelectorAll('a[href^="/live-cricket-scores/"]');
-        
-        const extractedMatches: MatchIndexItem[] = [];
-        const seenIds = new Set();
-
-        matchLinks.forEach((link: any) => {
-          const href = link.getAttribute('href');
-          const id = href?.split('/')[2];
-          const title = link.getAttribute('title') || link.innerText;
-
-          if (id && !seenIds.has(id)) {
-            seenIds.add(id);
-            extractedMatches.push({
-              id,
-              title: title.replace(' - Complete', '').replace(' - Live', ''),
-              status: title.includes('Won') ? 'Completed' : 'Live Now'
-            });
-          }
-        });
-
-        setMatches(extractedMatches);
+        const extractedMatches = await getActiveMatches();
+        setMatches(extractedMatches as MatchIndexItem[]);
       } catch (error) {
         console.error("Failed to scrape match list", error);
       } finally {

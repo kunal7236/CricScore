@@ -1,5 +1,8 @@
 ﻿import axios from 'axios';
 
+const LIVE_MATCHES_CACHE_KEY = 'cricscore-live-matches-cache-v1';
+const LIVE_MATCHES_CACHE_TTL_MS = 5 * 60 * 1000;
+
 const api = axios.create({
   baseURL: '/api/mcenter',
   headers: {
@@ -58,6 +61,18 @@ export const getMatchFullData = async (matchId: string): Promise<any> => {
  */
 export const getActiveMatches = async () => {
   try {
+    const cachedRaw = localStorage.getItem(LIVE_MATCHES_CACHE_KEY);
+    if (cachedRaw) {
+      const cached = JSON.parse(cachedRaw) as {
+        data: Array<{ id: string; title: string; status: string }>;
+        timestamp: number;
+      };
+
+      if (Date.now() - cached.timestamp < LIVE_MATCHES_CACHE_TTL_MS) {
+        return cached.data;
+      }
+    }
+
     const { data } = await axios.get('/api/live-matches-index');
     const parser = new DOMParser();
     const doc = parser.parseFromString(data, 'text/html');
@@ -80,6 +95,11 @@ export const getActiveMatches = async () => {
         });
       }
     });
+
+    localStorage.setItem(
+      LIVE_MATCHES_CACHE_KEY,
+      JSON.stringify({ data: extractedMatches, timestamp: Date.now() }),
+    );
 
     return extractedMatches;
   } catch (error) {
