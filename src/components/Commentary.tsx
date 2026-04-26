@@ -34,7 +34,7 @@ export const CommentaryItem = ({ ball }: { ball: BallCommentary }) => {
             <div className="text-xs font-bold text-charcoal/50 mt-2">
               {ball.ballMetric ? `${ball.ballMetric} overs` : ''}
               {ball.batsmanDetails?.playerName ? (
-                <span className="block">{ball.batsmanDetails.playerName}</span>
+                <span className="block">{ball.batsmanDetails.playerName ? `${ball.batsmanDetails.playerName} on the strike.` : ''}</span>
               ) : null}
         </div>
       </div>

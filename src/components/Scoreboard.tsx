@@ -107,7 +107,7 @@ const Scoreboard: React.FC<Props> = ({
       {/* Score Card - Current Innings */}
       <div className="grid grid-cols-1 gap-4">
         <div className="vintage-card p-5 relative">
-          {isSecondInnings ? <div className="absolute top-0 left-0 right-0 h-[3px] bg-forest"></div> : null}
+          {isSecondInnings ? <div className="absolute top-0 left-0 right-0 h-0.75 bg-forest"></div> : null}
           <div className="text-xs font-bold text-charcoal/60 uppercase tracking-wider mb-3">
             {isSecondInnings ? '2nd Innings' : '1st Innings'}
           </div>
