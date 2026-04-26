@@ -4,7 +4,7 @@ const LIVE_MATCHES_CACHE_KEY = 'cricscore-live-matches-cache-v1';
 const LIVE_MATCHES_CACHE_TTL_MS = 5 * 60 * 1000;
 
 const api = axios.create({
-  baseURL: '/api/mcenter',
+  baseURL: 'https://cric-proxy.kunalkashyap277.workers.dev/',
   headers: {
     Accept: 'application/json',
   },
