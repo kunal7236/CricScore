@@ -18,9 +18,63 @@ const Scoreboard: React.FC<Props> = ({
   miniscore,
   matchHeader 
 }) => {
+  const getNumber = (...values: Array<unknown>) => {
+    for (const value of values) {
+      const parsed = Number(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    return 0;
+  };
+
+  const getText = (...values: Array<unknown>) => {
+    for (const value of values) {
+      if (typeof value === 'string' && value.trim()) return value.trim();
+    }
+    return '';
+  };
+
+  const strikerData = miniscore?.batsmanStriker as any;
+  const nonStrikerData = miniscore?.batsmanNonStriker as any;
+
   const isLive = state === 'inprogress' || state === 'In Progress';
-  const currentRR = miniscore?.currentRunRate?.toFixed(2) || '0.00';
-  const requiredRR = miniscore?.requiredRunRate?.toFixed(2) || '0.00';
+  const currentRR = getNumber(miniscore?.currentRunRate).toFixed(2);
+  const requiredRR = getNumber(miniscore?.requiredRunRate).toFixed(2);
+  const inningsFromScoreList = miniscore?.matchScoreDetails?.inningsScoreList?.at(-1)?.inningsId;
+  const currentInnings = getNumber(miniscore?.inningsId, inningsFromScoreList, 1);
+  const isSecondInnings = currentInnings >= 2;
+  const currentInningsEntry = miniscore?.matchScoreDetails?.inningsScoreList?.find(
+    (entry) => entry?.inningsId === currentInnings,
+  );
+  const currentTeamName =
+    getText(miniscore?.batTeam?.teamName, currentInningsEntry?.batTeamName) ||
+    (isSecondInnings ? matchHeader?.team2.shortName : matchHeader?.team1.shortName) ||
+    'TEAM';
+  const currentScore = getNumber(
+    miniscore?.batTeam?.teamScore,
+    currentInningsEntry?.score,
+    batting?.teamScore,
+  );
+  const currentWickets = getNumber(
+    miniscore?.batTeam?.teamWkts,
+    currentInningsEntry?.wickets,
+    batting?.teamWkts,
+  );
+  const currentOvers = getNumber(miniscore?.overs, currentInningsEntry?.overs);
+  const target = getNumber(miniscore?.target);
+  const partnershipRuns = getNumber(miniscore?.partnerShip?.runs);
+  const remainingToWin = getNumber(miniscore?.remRunsToWin);
+
+  const strikerName = getText(strikerData?.name, strikerData?.batName);
+  const strikerRuns = getNumber(strikerData?.runs, strikerData?.batRuns);
+  const strikerBalls = getNumber(strikerData?.balls, strikerData?.batBalls);
+  const strikerFours = getNumber(strikerData?.fours, strikerData?.batFours);
+  const strikerSixes = getNumber(strikerData?.sixes, strikerData?.batSixes);
+
+  const nonStrikerName = getText(nonStrikerData?.name, nonStrikerData?.batName);
+  const nonStrikerRuns = getNumber(nonStrikerData?.runs, nonStrikerData?.batRuns);
+  const nonStrikerBalls = getNumber(nonStrikerData?.balls, nonStrikerData?.batBalls);
+  const nonStrikerFours = getNumber(nonStrikerData?.fours, nonStrikerData?.batFours);
+  const nonStrikerSixes = getNumber(nonStrikerData?.sixes, nonStrikerData?.batSixes);
   const viewLabel = typeof views === 'number'
     ? `${(views / 1000000).toFixed(1)}M watching`
     : views
@@ -50,104 +104,103 @@ const Scoreboard: React.FC<Props> = ({
         )}
       </div>
 
-      {/* Score Cards - Both Innings */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* First Innings */}
-        <div className="vintage-card p-5">
-          <div className="text-xs font-bold text-charcoal/60 uppercase tracking-wider mb-3">
-            1st Innings
-          </div>
-          <h2 className="text-xl font-serif font-semibold text-charcoal mb-2">{matchHeader?.team1.shortName || 'TEAM 1'}</h2>
-          <div className="score-display text-4xl text-charcoal mb-1">
-            {miniscore?.matchScoreDetails?.inningsScoreList?.[0]?.score ?? batting?.teamScore ?? 0}
-            <span className="text-2xl text-charcoal/50">/{miniscore?.matchScoreDetails?.inningsScoreList?.[0]?.wickets ?? batting?.teamWkts ?? 0}</span>
-          </div>
-          <div className="text-xs text-charcoal/60 font-medium">
-            {miniscore?.matchScoreDetails?.inningsScoreList?.[0]?.overs ?? 0} Overs
-          </div>
-        </div>
-
-        {/* Second Innings */}
+      {/* Score Card - Current Innings */}
+      <div className="grid grid-cols-1 gap-4">
         <div className="vintage-card p-5 relative">
-          <div className="absolute top-0 left-0 right-0 h-[3px] bg-forest"></div>
+          {isSecondInnings ? <div className="absolute top-0 left-0 right-0 h-[3px] bg-forest"></div> : null}
           <div className="text-xs font-bold text-charcoal/60 uppercase tracking-wider mb-3">
-            2nd Innings
+            {isSecondInnings ? '2nd Innings' : '1st Innings'}
           </div>
-          <h2 className="text-xl font-serif font-semibold text-charcoal mb-2">{matchHeader?.team2.shortName || 'TEAM 2'}</h2>
+          <h2 className="text-xl font-serif font-semibold text-charcoal mb-2">{currentTeamName}</h2>
           <div className="score-display text-4xl text-charcoal mb-1">
-            {miniscore?.matchScoreDetails?.inningsScoreList?.[1]?.score ?? 0}
-            <span className="text-2xl text-charcoal/50">/{miniscore?.matchScoreDetails?.inningsScoreList?.[1]?.wickets ?? 0}</span>
+            {currentScore}
+            <span className="text-2xl text-charcoal/50">/{currentWickets}</span>
           </div>
           <div className="text-xs text-charcoal/60 font-medium">
-            {miniscore?.overs ?? 0} Overs • Target: <span className="text-charcoal font-bold">{miniscore?.target ?? 0}</span>
+            {currentOvers} Overs
+            {isSecondInnings ? (
+              <>
+                {' '}• Target: <span className="text-charcoal font-bold">{target}</span>
+              </>
+            ) : null}
           </div>
         </div>
       </div>
 
       {/* Run Rates & Key Stats */}
       {miniscore && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className={`grid grid-cols-2 ${isSecondInnings ? 'md:grid-cols-4' : 'md:grid-cols-2'} gap-3`}>
           <div className="bg-blue-500/10 rounded-lg p-3">
-            <div className="text-xs font-bold text-blue-800/70 uppercase tracking-wider">CRR</div>
+            <div className="text-xs font-bold text-blue-800/70 uppercase tracking-wider">Current Run Rate (CRR)</div>
             <div className="text-2xl font-bold font-serif text-blue-900">{currentRR}</div>
-          </div>
-          <div className="bg-amber-500/10 rounded-lg p-3">
-            <div className="text-xs font-bold text-amber-800/70 uppercase tracking-wider">RRR</div>
-            <div className="text-2xl font-bold font-serif text-amber-900">{requiredRR}</div>
           </div>
           <div className="bg-purple-500/10 rounded-lg p-3">
             <div className="text-xs font-bold text-purple-800/70 uppercase tracking-wider">Partnership</div>
-            <div className="text-2xl font-bold font-serif text-purple-900">{miniscore.partnerShip?.runs || 0}</div>
+            <div className="text-2xl font-bold font-serif text-purple-900">{partnershipRuns}</div>
           </div>
-          <div className="bg-emerald-500/10 rounded-lg p-3">
-            <div className="text-xs font-bold text-emerald-800/70 uppercase tracking-wider">To Win</div>
-            <div className="text-2xl font-bold font-serif text-emerald-900">{miniscore.remRunsToWin || 0}</div>
-          </div>
+          {isSecondInnings && (
+            <>
+              <div className="bg-amber-500/10 rounded-lg p-3">
+                <div className="text-xs font-bold text-amber-800/70 uppercase tracking-wider">Required Run Rate (RRR)</div>
+                <div className="text-2xl font-bold font-serif text-amber-900">{requiredRR}</div>
+              </div>
+              <div className="bg-emerald-500/10 rounded-lg p-3">
+                <div className="text-xs font-bold text-emerald-800/70 uppercase tracking-wider">To Win</div>
+                <div className="text-2xl font-bold font-serif text-emerald-900">{remainingToWin}</div>
+              </div>
+            </>
+          )}
         </div>
       )}
 
       {/* Batsman Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {miniscore?.batsmanStriker && (
+        {strikerData && (
           <div className="vintage-card p-4">
             <div className="flex justify-between items-center mb-2">
-              <h3 className="font-serif font-semibold text-charcoal">{miniscore.batsmanStriker.name}*</h3>
-              <div className="score-display text-2xl">{miniscore.batsmanStriker.runs}</div>
+              <h3 className="font-serif font-semibold text-charcoal">{strikerName ? `${strikerName}*` : 'Striker'}</h3>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="grid grid-cols-4 gap-2 text-center">
+              <div className="bg-[#F5EDE4] rounded p-2">
+                <div className="text-xs text-charcoal/60">Runs</div>
+                <div className="font-bold">{strikerRuns}</div>
+              </div>
               <div className="bg-[#F5EDE4] rounded p-2">
                 <div className="text-xs text-charcoal/60">Balls</div>
-                <div className="font-bold">{miniscore.batsmanStriker.balls}</div>
+                <div className="font-bold">{strikerBalls}</div>
               </div>
               <div className="bg-[#F5EDE4] rounded p-2">
                 <div className="text-xs text-charcoal/60">4s</div>
-                <div className="font-bold">{miniscore.batsmanStriker.fours}</div>
+                <div className="font-bold">{strikerFours}</div>
               </div>
               <div className="bg-[#F5EDE4] rounded p-2">
                 <div className="text-xs text-charcoal/60">6s</div>
-                <div className="font-bold">{miniscore.batsmanStriker.sixes}</div>
+                <div className="font-bold">{strikerSixes}</div>
               </div>
             </div>
           </div>
         )}
-        {miniscore?.batsmanNonStriker && (
+        {nonStrikerData && (
           <div className="vintage-card p-4">
             <div className="flex justify-between items-center mb-2">
-              <h3 className="font-serif font-semibold text-charcoal">{miniscore.batsmanNonStriker.name}</h3>
-              <div className="score-display text-2xl">{miniscore.batsmanNonStriker.runs}</div>
+              <h3 className="font-serif font-semibold text-charcoal">{nonStrikerName || 'Non-striker'}</h3>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="grid grid-cols-4 gap-2 text-center">
+              <div className="bg-[#F5EDE4] rounded p-2">
+                <div className="text-xs text-charcoal/60">Runs</div>
+                <div className="font-bold">{nonStrikerRuns}</div>
+              </div>
               <div className="bg-[#F5EDE4] rounded p-2">
                 <div className="text-xs text-charcoal/60">Balls</div>
-                <div className="font-bold">{miniscore.batsmanNonStriker.balls}</div>
+                <div className="font-bold">{nonStrikerBalls}</div>
               </div>
               <div className="bg-[#F5EDE4] rounded p-2">
                 <div className="text-xs text-charcoal/60">4s</div>
-                <div className="font-bold">{miniscore.batsmanNonStriker.fours}</div>
+                <div className="font-bold">{nonStrikerFours}</div>
               </div>
               <div className="bg-[#F5EDE4] rounded p-2">
                 <div className="text-xs text-charcoal/60">6s</div>
-                <div className="font-bold">{miniscore.batsmanNonStriker.sixes}</div>
+                <div className="font-bold">{nonStrikerSixes}</div>
               </div>
             </div>
           </div>

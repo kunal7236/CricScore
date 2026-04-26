@@ -14,10 +14,20 @@ const normalizePayload = (payload: any) => payload?.data ?? payload;
  */
 export const getMatchFullData = async (matchId: string): Promise<any> => {
   try {
+    const now = Date.now();
     const [liveRes, commRes, viewsRes] = await Promise.all([
-      api.get(`/livescore/${matchId}`),
-      api.get(`/comm/${matchId}`),
-      api.get(`/views-counter/${matchId}`),
+      api.get(`/livescore/${matchId}`, {
+        params: { t: now },
+        headers: { 'Cache-Control': 'no-cache' },
+      }),
+      api.get(`/comm/${matchId}`, {
+        params: { t: now + 1 },
+        headers: { 'Cache-Control': 'no-cache' },
+      }),
+      api.get(`/views-counter/${matchId}`, {
+        params: { t: now + 2 },
+        headers: { 'Cache-Control': 'no-cache' },
+      }),
     ]);
 
     const liveData = normalizePayload(liveRes.data);
