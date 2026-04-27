@@ -1,7 +1,7 @@
 ﻿import axios from 'axios';
 
 const LIVE_MATCHES_CACHE_KEY = 'cricscore-live-matches-cache-v1';
-const LIVE_MATCHES_CACHE_TTL_MS = 5 * 60 * 1000;
+const LIVE_MATCHES_CACHE_TTL_MS =  10 * 1000;
 
 const api = axios.create({
   baseURL: 'https://cric-proxy.kunalkashyap277.workers.dev/',
@@ -73,7 +73,7 @@ export const getActiveMatches = async () => {
       }
     }
 
-    const { data } = await axios.get('/api/live-matches-index');
+    const { data } = await axios.get('https://cric-proxy.kunalkashyap277.workers.dev/index');
     const parser = new DOMParser();
     const doc = parser.parseFromString(data, 'text/html');
     const matchLinks = doc.querySelectorAll('a[href^="/live-cricket-scores/"]');
