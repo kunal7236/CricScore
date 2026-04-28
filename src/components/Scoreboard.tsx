@@ -1,5 +1,6 @@
 import React from 'react';
 import type { TeamScore, MiniScore, MatchHeader } from '../types/cricket';
+import StatCard from './StatCard';
 
 interface Props {
   batting?: TeamScore;
@@ -128,24 +129,12 @@ const Scoreboard: React.FC<Props> = ({
       {/* Run Rates & Key Stats */}
       {miniscore && (
         <div className={`grid grid-cols-2 ${isSecondInnings ? 'md:grid-cols-4' : 'md:grid-cols-2'} gap-3`}>
-          <div className={`bg-blue-500/10 rounded-lg p-3  border border-parchment`}>
-            <div className="text-xs font-bold text-blue-800/70 uppercase tracking-wider">Current Run Rate (CRR)</div>
-            <div className="text-2xl font-bold font-serif text-blue-900">{currentRR}</div>
-          </div>
-          <div className={`bg-purple-500/10 rounded-lg p-3  border border-parchment`}>
-            <div className="text-xs font-bold text-purple-800/70 uppercase tracking-wider">Partnership</div>
-            <div className="text-2xl font-bold font-serif text-purple-900">{partnershipRuns}</div>
-          </div>
+          <StatCard title="Current Run Rate (CRR)" value={currentRR} color="blue" />
+          <StatCard title="Partnership" value={partnershipRuns} color="purple" />
           {isSecondInnings && (
             <>
-              <div className={`bg-amber-500/10 rounded-lg p-3  border border-parchment`}>
-                <div className="text-xs font-bold text-amber-800/70 uppercase tracking-wider">Required Run Rate (RRR)</div>
-                <div className="text-2xl font-bold font-serif text-amber-900">{requiredRR}</div>
-              </div>
-              <div className={`bg-emerald-500/10 rounded-lg p-3  border border-parchment`}>
-                <div className="text-xs font-bold text-emerald-800/70 uppercase tracking-wider">To Win</div>
-                <div className="text-2xl font-bold font-serif text-emerald-900">{remainingToWin}</div>
-              </div>
+              <StatCard title="Required Run Rate (RRR)" value={requiredRR} color="amber" />
+              <StatCard title="To Win" value={remainingToWin} color="emerald" />
             </>
           )}
         </div>
