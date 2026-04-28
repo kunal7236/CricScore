@@ -59,6 +59,16 @@ export const getMatchFullData = async (matchId: string): Promise<any> => {
   }
 };
 
+export const getPartnershipData = async (matchId: string): Promise<any> => {
+  try {
+    const { data } = await api.get(`/partnership-graph/${matchId}`);
+    return normalizePayload(data);
+  } catch (error) {
+    console.error('API Error while fetching partnership data:', error);
+    throw error;
+  }
+};
+
 /**
  * Scrapes the live score index page to find active match IDs.
  */
