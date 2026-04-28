@@ -1,6 +1,7 @@
 import React from 'react';
 import type { TeamScore, MiniScore, MatchHeader } from '../types/cricket';
 import StatCard from './StatCard';
+import BatsmanCard from './BatsmanCard';
 
 interface Props {
   batting?: TeamScore;
@@ -143,54 +144,24 @@ const Scoreboard: React.FC<Props> = ({
       {/* Batsman Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {strikerData && (
-          <div className="vintage-card p-4 border border-parchment">
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-serif font-semibold text-charcoal">{strikerName ? `${strikerName}*` : 'Striker'}</h3>
-            </div>
-            <div className="grid grid-cols-4 gap-2 text-center">
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">Runs</div>
-                <div className="font-bold">{strikerRuns}</div>
-              </div>
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">Balls</div>
-                <div className="font-bold">{strikerBalls}</div>
-              </div>
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">4s</div>
-                <div className="font-bold">{strikerFours}</div>
-              </div>
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">6s</div>
-                <div className="font-bold">{strikerSixes}</div>
-              </div>
-            </div>
-          </div>
+          <BatsmanCard
+            name={strikerName}
+            runs={strikerRuns}
+            balls={strikerBalls}
+            fours={strikerFours}
+            sixes={strikerSixes}
+            isStriker={true}
+          />
         )}
         {nonStrikerData && (
-          <div className="vintage-card p-4 border border-parchment">
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-serif font-semibold text-charcoal">{nonStrikerName || 'Non-striker'}</h3>
-            </div>
-            <div className="grid grid-cols-4 gap-2 text-center">
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">Runs</div>
-                <div className="font-bold">{nonStrikerRuns}</div>
-              </div>
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">Balls</div>
-                <div className="font-bold">{nonStrikerBalls}</div>
-              </div>
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">4s</div>
-                <div className="font-bold">{nonStrikerFours}</div>
-              </div>
-              <div className="bg-[#F5EDE4] rounded p-2 border border-parchment">
-                <div className="text-xs text-charcoal/60">6s</div>
-                <div className="font-bold">{nonStrikerSixes}</div>
-              </div>
-            </div>
-          </div>
+          <BatsmanCard
+            name={nonStrikerName}
+            runs={nonStrikerRuns}
+            balls={nonStrikerBalls}
+            fours={nonStrikerFours}
+            sixes={nonStrikerSixes}
+            isStriker={false}
+          />
         )}
       </div>
 
