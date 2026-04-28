@@ -12,7 +12,7 @@ interface BatsmanCardProps {
 
 const BatsmanCard: React.FC<BatsmanCardProps> = ({ name, runs, balls, fours, sixes, isStriker }) => {
   return (
-    <div className="vintage-card p-4 border border-parchment">
+    <div className="vintage-card p-4 border border-charcoal">
       <div className="flex justify-between items-center mb-2">
         <h3 className="font-serif font-semibold text-charcoal">
           {name ? `${name}${isStriker ? '*' : ''}` : (isStriker ? 'Striker' : 'Non-striker')}

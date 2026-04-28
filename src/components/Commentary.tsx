@@ -20,8 +20,8 @@ export const CommentaryItem = ({ ball }: { ball: BallCommentary }) => {
   const outcomeIcon = getOutcomeIcon();
   
   let bgColor = 'bg-white';
-  let borderColor = 'border-parchment';
-  let accentColor = 'bg-charcoal';
+  let borderColor = 'border-charcoal/20';
+  let accentColor = 'bg-white';
   
   if (isWicket) {
     bgColor = 'bg-red-50';

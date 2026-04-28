@@ -8,12 +8,12 @@ export const MatchCard = ({ match }: { match: MatchIndexItem }) => (
         <div className="flex-1">
           <div className="flex justify-between items-start mb-4">
             {match.status === "Live Now" ? (
-              <span className="vintage-badge vintage-badge-live  border border-parchment">
-                <div className="w-1 h-1.5 rounded-full bg-burgundy animate-pulse-slow"></div>
-                • Live
+              <span className="vintage-badge  border border-charcoa/40 text-charcoal">
+                <div className="w-1.5 h-1.5 rounded-full bg-burgundy animate-pulse-slow"></div>
+                 Live
               </span>
             ) : (
-              <span className="vintage-badge vintage-badge-completed  border border-parchment">
+              <span className="vintage-badge  border border-charcoal/40 text-charcoal">
                 Completed
               </span>
             )}
@@ -23,7 +23,7 @@ export const MatchCard = ({ match }: { match: MatchIndexItem }) => (
           </h2>
         </div>
 
-        <div className="mt-10 pt-4 border-t border-parchment flex justify-between items-center text-xs font-bold tracking-wider">
+        <div className="mt-10 pt-4 border-t border-charcoal/40 flex justify-between items-center text-xs font-bold tracking-wider">
           {/* <span className="text-charcoal/50">Match ID: {match.id}</span> */}
           <div className="flex items-center gap-2 text-gold transition-transform duration-300 group-hover:translate-x-1">
             <span>VIEW</span>

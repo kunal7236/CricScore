@@ -18,7 +18,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, color, children }) =>
   const [bgColor, titleColor, valueColor] = colorClasses[color].split(' ');
 
   return (
-    <div className={`${bgColor} rounded-lg p-3 border border-parchment`}>
+    <div className={`${bgColor} rounded-lg p-3 border border-charcoal`}>
       <div className={`text-xs font-bold ${titleColor} uppercase tracking-wider`}>{title}</div>
       <div className={`text-2xl font-bold font-serif ${valueColor}`}>{value}</div>
       {children}

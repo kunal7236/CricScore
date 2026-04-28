@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import type { MatchIndexItem } from '../types/cricket';
 import { MatchCard } from '../components/MatchCard';
 import { getActiveMatches } from '../api/client';
 
 const Dashboard: React.FC = () => {
-  const [matches, setMatches] = useState<MatchIndexItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: matches, isLoading, error } = useQuery<MatchIndexItem[]>({
+    queryKey: ['activeMatches'],
+    queryFn: getActiveMatches,
+  });
 
-  useEffect(() => {
-    const fetchIndex = async () => {
-      try {
-        const extractedMatches = await getActiveMatches();
-        setMatches(extractedMatches as MatchIndexItem[]);
-      } catch (error) {
-        console.error("Failed to scrape match list", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchIndex();
-  }, []);
-
-  if (loading) return (
-    <div className="min-h-screen bg-cream flex items-center justify-center">
+  if (isLoading) return (
+    <div className="min-h-screen bg-parchment/30 flex items-center justify-center">
       <div className="font-serif text-lg font-medium text-charcoal/50 animate-pulse">
         Scanning Global Fixtures...
       </div>
     </div>
   );
 
+  if (error) return (
+    <div className="min-h-screen bg-parchment/30 flex items-center justify-center">
+      <div className="font-serif text-lg font-medium text-red-800">
+        Could not fetch match list.
+      </div>
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-cream font-sans text-charcoal">
+    <div className="min-h-screen bg-parchment/30 font-sans text-charcoal">
       <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
         {/* Header */}
         <header className="text-center mb-12">
@@ -48,7 +44,7 @@ const Dashboard: React.FC = () => {
         </header>
 
         {/* Matches Grid */}
-        {matches.length > 0 ? (
+        {matches && matches.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
             {matches.map((match) => (
               <MatchCard key={match.id} match={match} />
