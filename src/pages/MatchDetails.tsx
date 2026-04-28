@@ -49,8 +49,8 @@ const MatchDetails: React.FC = () => {
 
   if (!data) return <div className="flex h-screen items-center justify-center bg-cream text-charcoal/50 animate-pulse font-serif text-lg">Loading Field...</div>;
 
-  const commentary = data.matchCommentary
-    ? Object.values(data.matchCommentary)
+  const commentary = data.commentary?.matchCommentary
+    ? Object.values(data.commentary.matchCommentary)
         .filter((item: any) => item?.commText && item?.commType === 'commentary')
         .sort((a: any, b: any) => (Number(b?.timestamp) || 0) - (Number(a?.timestamp) || 0))
         .slice(0, 50)
@@ -69,12 +69,13 @@ const MatchDetails: React.FC = () => {
         
         {/* Scoreboard */}
         <Scoreboard 
-          batting={data.miniscore?.batTeam} 
+          batting={data.commentary?.miniScore?.batTeam} 
           status={data.status} 
           state={data.state}
           views={data.views?.viewersCount?.[0]?.count}
-          miniscore={data.miniscore}
-          matchHeader={data.matchHeader}
+          miniscore={data.commentary?.miniScore}
+          matchHeader={data.commentary?.matchHeader}
+          commentaryData={data.commentary}
         />
 
         {/* Commentary Section */}

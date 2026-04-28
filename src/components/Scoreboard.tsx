@@ -1,7 +1,8 @@
 import React from 'react';
-import type { TeamScore, MiniScore, MatchHeader } from '../types/cricket';
+import type { TeamScore, MiniScore, MatchHeader, Commentary } from '../types/cricket';
 import StatCard from './StatCard';
 import BatsmanCard from './BatsmanCard';
+import WinProbabilityBar from './WinProbabilityBar';
 
 interface Props {
   batting?: TeamScore;
@@ -10,6 +11,7 @@ interface Props {
   views?: string | number;
   miniscore?: MiniScore;
   matchHeader?: MatchHeader;
+  commentaryData?: Commentary;
 }
 
 const Scoreboard: React.FC<Props> = ({ 
@@ -18,7 +20,8 @@ const Scoreboard: React.FC<Props> = ({
   state, 
   views, 
   miniscore,
-  matchHeader 
+  matchHeader,
+  commentaryData
 }) => {
   const getNumber = (...values: Array<unknown>) => {
     for (const value of values) {
@@ -140,6 +143,9 @@ const Scoreboard: React.FC<Props> = ({
           )}
         </div>
       )}
+
+      {/* Win Probability */}
+      {commentaryData?.winProbability && <WinProbabilityBar winProbability={commentaryData.winProbability} />}
 
       {/* Batsman Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

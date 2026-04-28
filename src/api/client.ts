@@ -45,9 +45,12 @@ export const getMatchFullData = async (matchId: string): Promise<any> => {
       matchId,
       state: matchHeader.state || miniscore?.matchScoreDetails?.state || 'preview',
       status: matchHeader.status || miniscore?.status || 'Match not started',
-      matchHeader,
-      miniscore,
-      matchCommentary,
+      commentary: {
+        winProbability: commData?.winProbability,
+        miniScore: miniscore,
+        matchHeader: matchHeader,
+        matchCommentary: matchCommentary,
+      },
       views: viewsData || commData?.views || {},
     };
   } catch (error) {
