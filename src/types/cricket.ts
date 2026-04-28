@@ -104,6 +104,38 @@ export interface MiniScore {
   matchScoreDetails?: MatchScoreDetails;
 }
 
+export interface WinProbability {
+  matchId: number;
+  drawTiePercent: number;
+  team1: {
+    id: number;
+    percent: number;
+    name: string;
+    shortName: string;
+    color: string;
+  };
+  team2: {
+    id: number;
+    percent: number;
+    name: string;
+    shortName: string;
+    color: string;
+  };
+  lastUpdatedOver: number;
+  odds: {
+    team1_point: number;
+    team2_point: number;
+  };
+}
+
+export interface Commentary {
+  winProbability?: WinProbability;
+  miniScore?: MiniScore;
+  matchCommentary?:Record<string, BallCommentary>;
+  matchHeader?: MatchHeader;
+  // other commentary properties can be added here
+}
+
 /**
  * Renamed to MatchDetails to match client.ts imports
  */
@@ -111,9 +143,7 @@ export interface MatchDetails {
   matchId: string;
   state: "inprogress" | "preview" | "complete";
   status: string;
-  matchHeader: MatchHeader;
-  miniscore?: MiniScore;
-  matchCommentary?: Record<string, BallCommentary>;
+  commentary?: Commentary;
   viewCount?: number;
 }
 
